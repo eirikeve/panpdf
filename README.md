@@ -25,6 +25,8 @@ panpdf: converting panpdf readme
 it worked! 
 ```
 
+**Note: For the example output html file to be displayed correctly, you'll need to download it (since github shows it as plaintext).**
+
 ## Snippets for the example output
 
 Just so a bit more is displayed in the example output, here's:  
