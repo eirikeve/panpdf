@@ -92,4 +92,4 @@ int main(int argc, char *argv[]) {
 
 * github.com/simonlc's [Markdown-CSS](https://github.com/simonlc/Markdown-CSS)  
 * [CUPS](https://www.cups.org/)  
-* [Pandoc](pandoc.org)  
+* [Pandoc](https://pandoc.org)  
