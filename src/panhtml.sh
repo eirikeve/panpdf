@@ -40,7 +40,7 @@ OUTPUT_FILE="${INPUT_FILE_NO_EXTENSION}${HTML_FILETAG}"
 TITLE="$(grep -m 1 . ${INPUT_FILE})"
 printf "panpdf: converting ${TITLE}\n"
 
-pandoc -i ${INPUT_FILE} -o ${OUTPUT_FILE} -s --highlight-style=tango  -M title:"${TITLE}" --mathjax
+pandoc -i ${INPUT_FILE} -o ${OUTPUT_FILE} -s --highlight-style=tango  -M title:"${TITLE}" --mathml
 CP_FILE="${OUTPUT_FILE}.cp"
 cat $OUTPUT_FILE > $CP_FILE
 printf "<style>\n" > $OUTPUT_FILE
