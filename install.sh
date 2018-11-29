@@ -54,6 +54,15 @@ check_satisfies_requirements() {
             printf "check out pandoc.org\n"
             return 1
         fi
+        command -v cupsfilter > /dev/null
+        if [[ "$?" != "0" ]]
+        then
+            printf "$?\n"
+            printf "error: panpdf relies on cupsfilter for * -> HTML conversion\n"
+            printf "cannot install since cupsfilter isn't available\n"
+            printf "check out cups.org\n"
+            return 1
+        fi
     fi
     return 0
 }
