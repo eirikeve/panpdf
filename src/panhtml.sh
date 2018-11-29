@@ -38,7 +38,6 @@ INPUT_FILE_NO_EXTENSION=$(echo "$INPUT_FILE" | cut -f 1 -d '.')
 OUTPUT_FILE="${INPUT_FILE_NO_EXTENSION}${HTML_FILETAG}"
 
 TITLE="$(grep -m 1 . ${INPUT_FILE})"
-printf "panpdf: converting ${TITLE}\n"
 
 pandoc -i ${INPUT_FILE} -o ${OUTPUT_FILE} -s --highlight-style=tango  -M title:"${TITLE}" --mathml
 CP_FILE="${OUTPUT_FILE}.cp"
