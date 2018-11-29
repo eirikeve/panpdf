@@ -376,34 +376,41 @@ code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Inf
 <h2 id="what-is-panpdf">What is panpdf?</h2>
 <p><code>panpdf</code> is a command line tool for converting Markdown dialect files to CSS styled HTML or PDF. This lets you keep code highlighting, and makes the markdown look <em>like markdown</em> - and not like LaTeX (which is often great but not always ideal).</p>
 <p>It has two steps:<br />
-- <code>panhtml</code>: Creates a standalone HTML with custom CSS, using <a href="pandoc.org">pandoc</a> and some shell scripting. The CSS is embedded in the HTML since I've had issues embedding local CSS in the HTML files in other ways. (Pull requests welcome!!)<br />
-- <code>panpdf</code>: Creates a PDF formatted by the CSS. Not yet implemented, but planned for macOS using AppleScript and Safari's <code>save as PDF</code> functionality.</p>
-<p>Running <code>panpdf</code> will eventually perform both of the steps if necessary.</p>
-<p>There are other software which do the same thing - search online for <code>Markdown to PDF</code> and you'll find alternatives! :)</p>
+- <code>panhtml</code>: Creates a standalone HTML with custom CSS, using <code>pandoc</code> and some shell scripting. The CSS is embedded in the HTML since I've had issues embedding local CSS in the HTML files in other ways. (Pull requests welcome!!)<br />
+- <code>panpdf</code>: Creates a PDF formatted by the CSS. Currently implemented using <code>cupsfilter</code>. If necessary, first converts the input to HTML.</p>
+<p>There are other software which do the same thing - search online for <code>Markdown to PDF</code> and you'll find alternatives! :)<br />
+However, I tried several of these tools but couldn't get them to work reliably. So - I decided to make <code>panpdf</code>.</p>
 <h2 id="installation">Installation</h2>
 <p><code>panpdf</code> has these dependencies:</p>
 <ul class="incremental">
-<li>UNIX-like OS (possibly only macOS for PDF generation when it's implemented - depending on how I do it)</li>
-<li><a href="pandoc.org">Pandoc</a> must be installed</li>
+<li>UNIX-like OS</li>
+<li><a href="https://pandoc.org">pandoc</a> must be installed</li>
+<li><a href="https://www.cups.org/">cupsfilter</a> must be installed</li>
 </ul>
 <p>For a basic installation, run:</p>
 <pre><code>sudo ./install.sh</code></pre>
 <p>The scripts + CSS will then be installed in <code>/usr/local/panpdf/</code>, and symlinks for <code>panpdf</code>, <code>panhtml</code> will be added to <code>/usr/local/bin/</code>. <code>sudo</code> might be required due to folder creation in <code>/usr/local/</code> (it was for me atleast).</p>
 <p>If you want, go ahead and modify the <code>config</code> file to choose your own install directory or CSS source URL. The config is interpreted as a shell script (<code>. config</code>), so don't modify the variable names. (I'm planning on adding a script to automate changing the config, eventually.)</p>
 <p>The default CSS used is <a href="https://github.com/eirikeve/Markdown-CSS">this one</a>, which is a print-friendly version of <a href="https://github.com/simonlc/Markdown-CSS">github.com/simonlc's Markdown-CSS</a>.</p>
-<p>After the installation, <code>panhtml</code> should be usable. <code>panpdf</code> currently doesn't work (it's not finished).</p>
+<p>After the installation, <code>panhtml</code> and <code>panpdf</code> should be usable.</p>
 <h2 id="usage-example">Usage example</h2>
-<p>This is how the <a href="example_output/README.html">html file in example_output</a> was made.</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">eves@eves-mbp</span>:~/Documents/Programming/panpdf$ panhtml README.md <span class="kw">&amp;&amp;</span> 
+<p>This is how the <a href="example_output/README.pdf">pdf file in example_output</a> was made.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">eves@eves-mbp</span>:~/Documents/Programming/panpdf$ panpdf README.md <span class="kw">&amp;&amp;</span>
 <span class="kw">if [[</span> <span class="st">&quot;</span><span class="va">$?</span><span class="st">&quot;</span> <span class="ot">==</span> <span class="st">&quot;0&quot;</span><span class="kw"> ]]</span>; <span class="kw">then</span>
-    <span class="bu">printf</span> <span class="st">&quot;it worked! </span><span class="dt">\</span><span class="st">n&quot;</span><span class="kw">;</span>
-    <span class="ex">open</span> README.html<span class="kw">;</span>
+    <span class="bu">printf</span> <span class="st">&quot;it worked! </span><span class="dt">\</span><span class="st">n&quot;</span>
+    <span class="ex">open</span> README.pdf
 <span class="kw">fi</span>
-<span class="ex">panpdf</span>: converting panpdf readme
+<span class="ex">it</span> worked! </code></pre></div>
+<p>This is how the <a href="example_output/README.html">html file in example_output</a> was made.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">eves@eves-mbp</span>:~/Documents/Programming/panpdf$ panhtml README.md <span class="kw">&amp;&amp;</span>
+<span class="kw">if [[</span> <span class="st">&quot;</span><span class="va">$?</span><span class="st">&quot;</span> <span class="ot">==</span> <span class="st">&quot;0&quot;</span><span class="kw"> ]]</span>; <span class="kw">then</span>
+    <span class="bu">printf</span> <span class="st">&quot;it worked! </span><span class="dt">\</span><span class="st">n&quot;</span>
+    <span class="ex">open</span> README.html
+<span class="kw">fi</span>
 <span class="ex">it</span> worked! </code></pre></div>
 <p><strong>Note: For the example output html file to be displayed correctly, you'll need to download it (since github shows it as plaintext).</strong></p>
 <h2 id="bugs">Bugs?</h2>
-<p>Theres probably a lot of bugs. Feel free to open an issue or a pull request if you encounter one.</p>
+<p>There's probably a lot of bugs. Feel free to open an issue if you encounter one. Pull requests are also very welcome!</p>
 <h2 id="snippets-for-the-example-output">Snippets for the example output</h2>
 <p>Just so a bit more is displayed in the example output, here's:</p>
 <ul class="incremental">
@@ -430,8 +437,11 @@ code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Inf
 }</code></pre></div>
 <h2 id="credit-references">Credit &amp; References</h2>
 <ul class="incremental">
-<li><p>github.com/simonlc's <a href="https://github.com/simonlc/Markdown-CSS">Markdown-CSS</a></p></li>
-<li><p><a href="pandoc.org">Pandoc</a></p></li>
+<li>github.com/simonlc's <a href="https://github.com/simonlc/Markdown-CSS">Markdown-CSS</a><br />
+</li>
+<li><a href="https://www.cups.org/">CUPS</a><br />
+</li>
+<li><a href="pandoc.org">Pandoc</a></li>
 </ul>
 </body>
 </html>

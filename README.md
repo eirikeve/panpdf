@@ -5,19 +5,19 @@ panpdf readme
 `panpdf` is a command line tool for converting Markdown dialect files to CSS styled HTML or PDF. This lets you keep code highlighting, and makes the markdown look *like markdown* - and not like LaTeX (which is often great but not always ideal).
 
 It has two steps:  
-- `panhtml`: Creates a standalone HTML with custom CSS, using [pandoc](pandoc.org) and some shell scripting. The CSS is embedded in the HTML since I've had issues embedding local CSS in the HTML files in other ways. (Pull requests welcome!!)  
-- `panpdf`: Creates a PDF formatted by the CSS. Not yet implemented, but planned for macOS using AppleScript and Safari's `save as PDF` functionality.
+- `panhtml`: Creates a standalone HTML with custom CSS, using `pandoc` and some shell scripting. The CSS is embedded in the HTML since I've had issues embedding local CSS in the HTML files in other ways. (Pull requests welcome!!)  
+- `panpdf`: Creates a PDF formatted by the CSS. Currently implemented using `cupsfilter`. If necessary, first converts the input to HTML.
 
-Running `panpdf` will eventually perform both of the steps if necessary.
-
-There are other software which do the same thing - search online for `Markdown to PDF` and you'll find alternatives! :)
+There are other software which do the same thing - search online for `Markdown to PDF` and you'll find alternatives! :)  
+However, I tried several of these tools but couldn't get them to work reliably. So - I decided to make `panpdf`.
 
 ## Installation
 
 `panpdf` has these dependencies:  
 
-* UNIX-like OS (possibly only macOS for PDF generation when it's implemented - depending on how I do it)
-* [Pandoc](pandoc.org) must be installed
+* UNIX-like OS
+* [pandoc](https://pandoc.org) must be installed
+* [cupsfilter](https://www.cups.org/) must be installed
 
 For a basic installation, run:
 ```
@@ -29,20 +29,28 @@ If you want, go ahead and modify the `config` file to choose your own install di
 
 The default CSS used is [this one](https://github.com/eirikeve/Markdown-CSS), which is a print-friendly version of [github.com/simonlc's Markdown-CSS](https://github.com/simonlc/Markdown-CSS).
 
-After the installation, `panhtml` should be usable. `panpdf` currently doesn't work (it's not finished).
-
+After the installation, `panhtml` and `panpdf` should be usable.
 
 
 ## Usage example
 
+This is how the [pdf file in example_output](example_output/README.pdf) was made.  
+```bash
+eves@eves-mbp:~/Documents/Programming/panpdf$ panpdf README.md &&
+if [[ "$?" == "0" ]]; then
+    printf "it worked! \\n"
+    open README.pdf
+fi
+it worked! 
+```
+
 This is how the [html file in example_output](example_output/README.html) was made.  
 ```bash
-eves@eves-mbp:~/Documents/Programming/panpdf$ panhtml README.md && 
+eves@eves-mbp:~/Documents/Programming/panpdf$ panhtml README.md &&
 if [[ "$?" == "0" ]]; then
-    printf "it worked! \\n";
-    open README.html;
+    printf "it worked! \\n"
+    open README.html
 fi
-panpdf: converting panpdf readme
 it worked! 
 ```
 
@@ -51,8 +59,7 @@ it worked!
 
 ## Bugs?
 
-Theres probably a lot of bugs. Feel free to open an issue or a pull request if you encounter one.
-
+There's probably a lot of bugs. Feel free to open an issue if you encounter one. Pull requests are also very welcome!
 
 ## Snippets for the example output
 
@@ -84,5 +91,5 @@ int main(int argc, char *argv[]) {
 ## Credit & References
 
 * github.com/simonlc's [Markdown-CSS](https://github.com/simonlc/Markdown-CSS)  
-
+* [CUPS](https://www.cups.org/)  
 * [Pandoc](pandoc.org)  
