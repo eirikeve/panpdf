@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+# Part of panpdf
+# Written by Eirik Vesterkjær
+# Used for setting configs for the install
+
+css_source="https://raw.githubusercontent.com/eirikeve/Markdown-CSS/master/markdown.css"
+storage_location="/usr/local/panpdf/"
+css_storage_filename="panpdf_markdown.css"
+
+
