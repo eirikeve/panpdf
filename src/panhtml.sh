@@ -11,45 +11,46 @@
 #
 #########
 
-# Check if file, or "-i"
+set_file_and_folder() {
+    if [ ! -f ${INPUT} ]; then
+        return 1
+    fi
+    INPUT_FILE=$(basename $INPUT)
+    INPUT_FOLDER=$(dirname $INPUT)
+    return 0
+}
+
 INPUT_FILE="INPUT_NOT_SET"
+INPUT_FOLDER="FOLDER_NOT_SET"
+CSS=${INSTALL_FOLDER}/${CSS_FILENAME}
 
 #abort on error
 set -e
 
-
-if [[ "$1" =~ ^.+\..+$ ]]
-then # non-zero return -> not file
-   INPUT_FILE=$(basename -- "$1")
-else
-    printf "error: unknown input $1\n"
-    return 1
+INPUT=$1
+set_file_and_folder
+if [ $? != 0 ]; then
+    printf "error: unknown input ${1}\n"
+    exit 1
 fi
-CSS=${INSTALL_FOLDER}/${CSS_FILENAME}
-
-if [ ! -f $CSS ]; 
-then
-   printf "error: could not find css ${CSS}\n"
-   return 1
+if [ ! -f $CSS ]; then
+    printf "error: failed to find CSS ${CSS}\n"
+    exit 1
 fi
 
 HTML_FILETAG=".html"
-INPUT_FILE_NO_EXTENSION=$(echo "$INPUT_FILE" | cut -f 1 -d '.')
+
+
+INPUT_FILE_NO_EXTENSION="${INPUT_FILE%.*}"
 OUTPUT_FILE="${INPUT_FILE_NO_EXTENSION}${HTML_FILETAG}"
+# set the title as the first nonzero line.
 
-TITLE="$(grep -m 1 . ${INPUT_FILE})"
+TITLE="$(grep -m 1 . ${INPUT_FOLDER}/${INPUT_FILE})"
 
-pandoc -i ${INPUT_FILE} -o ${OUTPUT_FILE} -s --highlight-style=tango  -M title:"${TITLE}" --mathml
-CP_FILE="${OUTPUT_FILE}.cp"
-cat $OUTPUT_FILE > $CP_FILE
-printf "<style>\n" > $OUTPUT_FILE
-cat ${INSTALL_FOLDER}/${CSS_FILENAME} >> $OUTPUT_FILE
+pandoc -i ${INPUT_FOLDER}/${INPUT_FILE} -o ${OUTPUT_FILE} -s --highlight-style=tango  -M title:"${TITLE}" --mathml
+echo "$(sed "s/<p>${TITLE}<\/p>//g" ${OUTPUT_FILE})" > ${OUTPUT_FILE}
+printf "\n<style>\n" >> $OUTPUT_FILE
+cat ${INSTALL_FOLDER}${CSS_FILENAME} >> $OUTPUT_FILE
 printf "\n</style>\n" >> $OUTPUT_FILE
-
-echo "$(sed "s/<p>${TITLE}<\/p>//g" ${CP_FILE})" > ${CP_FILE}
-
-cat $CP_FILE >> $OUTPUT_FILE
-
-rm $CP_FILE
 
 
