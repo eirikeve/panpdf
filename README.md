@@ -40,22 +40,12 @@ After the installation, `panhtml` and `panpdf` should be usable.
 
 This is how the [pdf file in example_output](example_output/README.pdf) was made.  
 ```bash
-eves@eves-mbp:~/Documents/Programming/panpdf$ panpdf README.md &&
-if [[ "$?" == "0" ]]; then
-    printf "it worked! \\n"
-    open README.pdf
-fi
-it worked! 
+eves@eves-mbp $ panpdf README.md && open README.pdf
 ```
 
 This is how the [html file in example_output](example_output/README.html) was made.  
 ```bash
-eves@eves-mbp:~/Documents/Programming/panpdf$ panhtml README.md &&
-if [[ "$?" == "0" ]]; then
-    printf "it worked! \\n"
-    open README.html
-fi
-it worked! 
+eves@eves-mbp $ panhtml README.md && open README.html
 ```
 
 **Note: For the example output html file to be displayed correctly, you'll need to download it (since github shows it as plaintext).**
@@ -82,6 +72,7 @@ $$ z = \theta^{*\top} \phi $$
 ```c
 // A c program
 #define SOME_MACRO "some macro"
+
 int main(int argc, char *argv[]) {
     if (argc > 1) {
         for (int i = 1; i < argc; i++) {
