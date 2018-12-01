@@ -11,6 +11,10 @@ It has two steps:
 There are other software which do the same thing - search online for `Markdown to PDF` and you'll find alternatives! :)  
 However, I tried several of these tools but couldn't get them to work reliably. So - I decided to make `panpdf`.
 
+## How does the output look?
+
+Since everything is formatted with CSS, it can look any way you want it to. Check out the [example_output folder](example_output/README.pdf)!
+
 ## Installation
 
 `panpdf` has these dependencies:  
