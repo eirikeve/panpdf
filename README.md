@@ -1,5 +1,10 @@
 panpdf readme
 
+## Note
+
+Currently, `panpdf` uses MathML for LaTeX, which only displays correctly in certain browsers.
+This is a WIP only.
+
 ## What is panpdf?
 
 `panpdf` is a command line tool for converting Markdown dialect files to CSS styled HTML or PDF. This lets you keep code highlighting, and makes the markdown look *like markdown* - and not like LaTeX (which is often great but not always ideal).
